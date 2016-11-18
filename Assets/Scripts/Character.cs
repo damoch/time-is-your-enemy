@@ -11,9 +11,9 @@ public class Character : MonoBehaviour {
 
     public string Name { get; set; }
     public float cash { get; set; }
-    public float tiredness { get; set; }
-    public float concetration { get; set; }
-    public float happiness { get; set; }
+    public int tiredness { get; set; }
+    public int concetration { get; set; }
+    public int happiness { get; set; }
 
 
 
