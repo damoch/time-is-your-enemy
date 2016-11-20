@@ -8,7 +8,10 @@ public class Controller : MonoBehaviour {
     public DateTime time;
     public Text timer;
     public Text playerInfo;
+    public InputField timeInput;
     public Character player;
+    public int workingHours;
+
 
 	// Use this for initialization
 	void Start () {
@@ -28,7 +31,7 @@ public class Controller : MonoBehaviour {
         player.name = name;
         player.cash = 2000f;
         player.tiredness = UnityEngine.Random.Range(0, 9);
-        player.concetration = UnityEngine.Random.Range(0, 9);
+        player.concetration = UnityEngine.Random.Range(80, 89);
         player.happiness = UnityEngine.Random.Range(80, 89);
         return player;
     }
@@ -62,10 +65,14 @@ public class Controller : MonoBehaviour {
 
     public void work()
     {
-        time=time.AddHours(1);
-
-        timer.text = time.ToString("HH:mm");
-        player.tiredness += UnityEngine.Random.Range(0, 9);
+        DateTime workedTime = Convert.ToDateTime(timeInput.text);
+        addTime(workedTime);
+        float timeSpan = workedTime.Hour;
+        timeSpan += workedTime.Minute / 60.0f;
+        //Debug.Log(((workedTime.Hour + workedTime.Minute / 60)).ToString());
+        Debug.Log(timeSpan.ToString());
+        if(player.tiredness < 90)
+             player.tiredness += (UnityEngine.Random.Range(0, 9) * timeSpan);
         updateCharacterInfo();
     }
 
@@ -81,6 +88,21 @@ public class Controller : MonoBehaviour {
     public void sleep()
     {
         Debug.Log("Goodnight");
+    }
+
+    void addTime(float t)
+    {
+        time = time.AddHours(t);
+        timer.text = time.ToString("HH:mm");
+
+    }
+    void addTime(DateTime t)
+    {
+        Debug.Log(t.Hour);
+        time = time.AddHours(t.Hour);
+        time = time.AddMinutes(t.Minute);
+
+        timer.text = time.ToString("HH:mm");
     }
 
 
